@@ -3,53 +3,63 @@ import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+
+
 def load_model():
     # loading the model
-    model = joblib.load("./models/modelMNB_v1.pkl")
+    model = joblib.load("./models/modelMNB_v2.pkl")
     print(model)
     return model
 
 def load_fit_vectorizer():
-    # loading the vectorizer
+   # i dont know how to load the vectorizers
     loaded_vectorizer_joblib = joblib.load('./src/tfidf_vectorizer.joblib')
     return loaded_vectorizer_joblib
 
 
-def user_input_and_predict(model,vectorizer):
-    # taking user job description and transforming it into a vector that the model can read and predict if its fraudulent or not
+def user_input_to_dataframe():
+    # taking user job input and transforming it into a vector that the model can read and predict if its fraudulent or not
+    
+    # do I have to make the tranformations that I did to the original dataset?
+    
 
     while True:
-        posting = input("Enter a job posting (or 'quit' to exit): ")
-        if posting.lower() == "quit":
+        
+        tmp_df = {
+                        'description': (str(input("Description: "))),
+                        'requirements': (str(input("Requirements: "))),
+                        'benefits': (str(input("Benefits: "))),
+                        }
+    
+        if tmp_df['description'] == 'quit' or tmp_df['requirements'] == 'quit' or tmp_df['benefits'] == 'quit':
             break
-        
-        
-        tmp_df = pd.DataFrame([posting], columns=['description'])
+        else:
+            return tmp_df
         
 
-        posting = vectorizer.transform(tmp_df.iloc[:,0])
+
+def vectorize_and_predict(model, vectorizer):
+    posting = vectorizer.transform(tmp_df.iloc[:,0])
         
-        prediction = model.predict(posting)
-        if prediction == 1:
+    prediction = model.predict(posting)
+
+    if prediction == 1:
             print("The posting is fraudulent.")
-        else:
+    else:
             print("The posting is not fraudulent.")
 
-        print("Prediction:", prediction)
+    print("Prediction:", prediction)
+
         
 
 
 
 
 if __name__ == "__main__":
-    model = load_model()
-    vectorizer = load_fit_vectorizer()
-    user_input_and_predict(model,vectorizer)
-    # Enter 'quit' to exit
+    tmp_df = user_input_to_dataframe()
+    print(tmp_df)
+   
+    #vectorizer = load_fit_vectorizer()
+    #user_input_and_predict(model,vectorizer)
     
     
-
-    
-    
-
-

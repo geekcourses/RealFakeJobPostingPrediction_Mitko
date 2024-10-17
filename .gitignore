@@ -164,3 +164,8 @@ cython_debug/
 
 # Ignore caches
 cachedir/
+
+*.joblib
+
+# Ignore processed data
+data/processed/

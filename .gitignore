@@ -163,9 +163,10 @@ cython_debug/
 #.idea/
 
 # Ignore caches
-cachedir/
+**/cachedir/
 
 *.joblib
 
-# Ignore processed data
+# Ignore processed data and models
 data/processed/
+models/
